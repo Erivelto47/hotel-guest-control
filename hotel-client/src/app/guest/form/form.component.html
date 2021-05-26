@@ -1,0 +1,111 @@
+<form [formGroup]="formGuest" *ngIf="formGuest" (ngSubmit)="onSubmit()">
+  <div class="p-field">
+    <label for="name" class="p-col-fixed" style="width:100px">Name:</label>
+    <div class="p-col">
+      <input
+        id="name" formControlName="name" type="text"
+        class="p-inputtext-md"
+        pInputText
+        [ngClass]="formGuest.get('name').errors?.required && formGuest.get('name').touched ? 'p-error' : ''"/>
+
+      <small class="p-error" *ngIf="formGuest.get('name').errors?.required && formGuest.get('name').touched"
+             class="p-error">
+        O nome é obrigatório!
+      </small>
+    </div>
+  </div>
+
+  <div class="p-field ">
+    <label for="lastname" class="p-col-fixed" style="width:100px">Lastname:</label>
+    <div class="p-col">
+      <input
+        id="lastname"
+        formControlName="lastname"
+        type="text"
+        pInputText
+        class="p-inputtext-md"
+        [ngClass]="formGuest.get('lastname').errors?.required && formGuest.get('lastname').touched ? 'p-error' : ''">
+
+      <small *ngIf="formGuest.get('lastname').errors?.required && formGuest.get('lastname').touched"
+             class="p-error">
+        O sobrenome é obrigatório!
+      </small>
+    </div>
+  </div>
+
+  <div class="p-field ">
+    <label for="email" class="p-col-fixed" style="width:100px">Email:</label>
+    <div class="p-col">
+      <input
+        id="email"
+        formControlName="email"
+        type="email"
+        pInputText
+        class="p-inputext-md"
+        [ngClass]="formGuest.get('email').errors?.required && formGuest.get('email').touched ? 'p-error' : ''">
+      <small *ngIf="formGuest.get('email').errors?.required && formGuest.get('email').touched"
+             class="p-error">
+        O email é obrigatório!
+      </small>
+    </div>
+  </div>
+  <div>
+  </div>
+
+  <div class="p-field ">
+    <label for="phone" class="p-col-fixed" style="width:100px">Phone:</label>
+    <div class="p-col">
+      <input
+        id="phone"
+        formControlName="phone"
+        type="text"
+        pInputText
+        class="p-inputext-md"
+        [ngClass]="formGuest.get('phone').errors?.required && formGuest.get('phone').touched ? 'p-error' : ''">
+
+      <small *ngIf="formGuest.get('phone').errors?.required && formGuest.get('phone').touched"
+             class="p-error">
+        O telefone é obrigatório!
+      </small>
+    </div>
+  </div>
+
+  <div class="p-field ">
+    <label for="document" class="p-col-fixed" style="width:100px">Document:</label>
+    <div class="p-col">
+      <input
+        id="document"
+        formControlName="document"
+        type="text"
+        pInputText
+        class="p-inputext-md"
+        [ngClass]="formGuest.get('document').errors?.required && formGuest.get('document').touched ? 'p-error' : ''">
+
+      <small *ngIf="formGuest.get('document').errors?.required && formGuest.get('document').touched"
+             class="p-error">
+        O numero de documento é obrigatório!
+      </small>
+    </div>
+  </div>
+
+  <div class="p-field ">
+    <label for="image" class="p-col-fixed" style="width:100px">Image:</label>
+    <p-fileUpload id="image" name="demo[]" (onUpload)="onUpload($event)" accept="image/*" maxFileSize="1000000">
+      <ng-template pTemplate="content">
+        <ul *ngIf="uploadedFile.length">
+          <li *ngFor="let file of uploadedFile">{{file.name}} - {{file.size}} bytes</li>
+        </ul>
+      </ng-template>
+    </p-fileUpload>
+  </div>
+
+
+  <div style="width:150px">
+    <button pButton pRipple type="submit" [disabled]="formGuest.invalid" label="Salvar" icon="pi pi-check"
+            class="p-button-text"></button>
+  </div>
+
+
+</form>
+
+
