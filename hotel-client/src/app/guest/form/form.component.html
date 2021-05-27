@@ -88,24 +88,10 @@
     </div>
   </div>
 
-  <div class="p-field ">
-    <label for="image" class="p-col-fixed" style="width:100px">Image:</label>
-    <p-fileUpload id="image" name="demo[]" (onUpload)="onUpload($event)" accept="image/*" maxFileSize="1000000">
-      <ng-template pTemplate="content">
-        <ul *ngIf="uploadedFile.length">
-          <li *ngFor="let file of uploadedFile">{{file.name}} - {{file.size}} bytes</li>
-        </ul>
-      </ng-template>
-    </p-fileUpload>
-  </div>
-
-
   <div style="width:150px">
     <button pButton pRipple type="submit" [disabled]="formGuest.invalid" label="Salvar" icon="pi pi-check"
             class="p-button-text"></button>
   </div>
-
-
 </form>
 
 

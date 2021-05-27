@@ -4,8 +4,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {NavModule} from "./shared/nav/nav.module";
+import {NavModule} from './shared/nav/nav.module';
 import { GuestModule } from './guest/guest.module';
+import {CheckinModule} from "./checkin/checkin.module";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { GuestModule } from './guest/guest.module';
     BrowserAnimationsModule,
     AppRoutingModule,
     NavModule,
-    GuestModule
+    GuestModule,
+    CheckinModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,160 @@
+<p-toast></p-toast>
+
+<div class="card">
+  <p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="left">
+      <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2"
+              (click)="openNew()"></button>
+    </ng-template>
+
+  </p-toolbar>
+
+  <p-table #dt [value]="checkins" [rows]="10" [paginator]="true" [rowHover]="true" dataKey="id"
+           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+           [showCurrentPageReport]="true">
+    <ng-template pTemplate="caption">
+      <div class="p-d-flex p-ai-center p-jc-between">
+        <h5 class="p-m-0">Manage Checkins</h5>
+        <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                   placeholder="Search..."/>
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="name">Id
+          <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="checkin">Checkin
+          <p-sortIcon field="checkin"></p-sortIcon>
+        </th>
+        <th pSortableColumn="checkout">Checkout
+          <p-sortIcon field="checkout"></p-sortIcon>
+        </th>
+        <th pSortableColumn="guest">Guest
+          <p-sortIcon field="guest"></p-sortIcon>
+        </th>
+        <th pSortableColumn="total">Total
+          <p-sortIcon field="total"></p-sortIcon>
+        </th>
+        <th pSortableColumn="laststay">Last Stay Total
+          <p-sortIcon field="laststay"></p-sortIcon>
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-checkin>
+      <tr>
+        <td>{{checkin.id}}</td>
+        <td>{{checkin.checkin | date: 'dd/mm/yyy, h:mm a'}}</td>
+        <td>{{checkin.checkout | date: 'dd/mm/yyy, h:mm a'}}</td>
+        <td>{{checkin.guest.name}}</td>
+        <td>{{checkin.total | number: '1.2'}}</td>
+        <td>{{checkin.laststay | number: '1.2'}}</td>
+        <td>
+          <button pButton pRipple icon="pi pi-pencil"
+                  class="p-button-rounded p-button-success p-mr-2"
+                  (click)="editCheckin(checkin)"></button>
+          <button pButton pRipple icon="pi pi-trash"
+                  class="p-button-rounded p-button-warning"
+                  (click)="deleteCheckin(checkin)"></button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="summary">
+      <div class="p-d-flex p-ai-center p-jc-between">
+        In total there are {{checkins ? checkins.length : 0 }} checkins.
+      </div>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog [(visible)]="checkinDialog" [style]="{width: '500px'}" header="Checkin Details" [modal]="true"
+          styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <div style="min-height: 600px">
+      <div class="p-formgrid p-grid">
+        <div class="p-field p-col">
+          <label for="checkin">Checkin</label>
+          <p-calendar id="checkin" showTime="true" [(ngModel)]="checkin.checkin"></p-calendar>
+        </div>
+      </div>
+
+      <div class="p-formgrid p-grid">
+        <div class="p-field p-col">
+          <label for="checkout">Checkout</label>
+          <p-calendar id="checkout" showTime="true" [(ngModel)]="checkin.checkout"></p-calendar>
+        </div>
+      </div>
+
+      <div class="p-formgrid p-grid">
+        <div class="p-field p-col">
+          <label for="guest">Guest</label>
+          <p-dropdown id="guest" [options]="guests" [(ngModel)]="selectedGuest" optionLabel="name"
+                      optionValue="id"></p-dropdown>
+        </div>
+      </div>
+
+      <div class="p-formgrid p-grid">
+        <div class="p-field p-col">
+          <label for="total">Total</label>
+          <input pInputText id="total" [(ngModel)]="checkin.total" type="number" step="0.01">
+        </div>
+      </div>
+
+      <div class="p-formgrid p-grid">
+        <div class="p-field p-col">
+          <label for="laststay">Last Stay</label>
+          <input pInputText id="laststay" [(ngModel)]="checkin.laststay" type="number" step="0.01">
+        </div>
+      </div>
+    </div>
+
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveCheckin()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+
+<div class="card" style="margin-top: 50px">
+  <p-toolbar styleClass="p-mb-4">
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col-12 p-md-6">
+        <label for="firstname">Firstname</label>
+        <input pInputText id="firstname" [(ngModel)]="filter.name" type="text">
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="phone">Phone</label>
+        <input pInputText id="phone" [(ngModel)]="filter.phone" type="text">
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="document">Document</label>
+        <input pInputText id="document" [(ngModel)]="filter.document" type="text">
+      </div>
+    </div>
+    <div class="p-field p-col-12 p-md-12">
+      <div class="p-field-radiobutton">
+        <p-radioButton id="inhotel" value="in" [(ngModel)]="filter.situation"></p-radioButton>
+        <label for="inhotel">In Hotel</label>
+      </div>
+      <div class="p-field-radiobutton">
+        <p-radioButton id="outhotel" value="out" [(ngModel)]="filter.situation"></p-radioButton>
+        <label for="outhotel">Out of Hotel</label>
+      </div>
+    </div>
+
+    <ng-template pTemplate="right">
+      <button pButton pRipple label="Search" icon="pi pi-search" class="p-button-info p-mr-6"
+              (click)="searchFiltered()"></button>
+    </ng-template>
+  </p-toolbar>
+</div>

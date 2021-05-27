@@ -33,14 +33,6 @@ export class NavComponent implements OnInit {
             icon: 'pi pi-fw pi-sign-in',
             routerLink: 'checkin'
           },
-          {
-            separator: true
-          },
-          {
-            label: 'Checkout',
-            icon: 'pi pi-fw pi-sign-out',
-            routerLink: 'checkout'
-          }
         ]
       }
     ];

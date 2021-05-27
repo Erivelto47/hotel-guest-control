@@ -1,26 +1,23 @@
-import { Injectable } from '@angular/core';
-import { Guest } from './guest';
-import { Observable, of } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {Guest} from './guest';
+import {Observable, of} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GuestService {
 
-  guest: Guest[];
+  guests: Guest[];
 
   constructor() {
-    this.guest = [
+    this.guests = [
       {
         id: 'dfasdfa',
         name: 'teste1',
         lastname: 'teste11',
         document: '9712390f',
         phone: '32887723321',
-        image: '',
         email: 'teste1@teste.com',
-        checkout: new Date(),
-        checking: new Date(),
       },
       {
         id: 'ksjdjoaisdjjfa',
@@ -28,50 +25,57 @@ export class GuestService {
         lastname: 'teste22',
         document: '9712390g',
         phone: '32887723322',
-        image: '',
         email: 'teste2@teste.com',
-        checkout: new Date(),
-        checking: new Date(),
-
-      }
-    ]
+      },
+      {
+        id: 'ksjdjoaisdfdsfa',
+        name: 'teste3',
+        lastname: 'teste33',
+        document: '9712390gf87s',
+        phone: '32887723123',
+        email: 'teste3@teste.com',
+      },
+      {
+        id: 'ksjdjodfdsfa',
+        name: 'teste4',
+        lastname: 'teste44',
+        document: '9712gf87s',
+        phone: '323123',
+        email: 'teste4@teste.com'
+      }];
   }
 
   public getAll(): Observable<Guest[]> {
-    return of(this.guest);
+    return of(this.guests);
   }
 
   public addGuest(guest: Guest): Observable<Guest> {
-    this.guest.push(guest)
-    console.log(this.guest);
+    this.guests.push(guest);
+    console.log(this.guests);
     return of(guest);
   }
 
   public updateGuest(guest: Guest): Observable<Guest> {
-    const index = this.guest
-      .indexOf(this.guest.find(value => value.id === guest.id));
-    this.guest[index] = guest;
-    return of(this.guest[index]);
+    const index = this.guests
+      .indexOf(this.guests.find(value => value.id === guest.id));
+    this.guests[index] = guest;
+    return of(this.guests[index]);
   }
 
-  public removeGuest(guest: Guest) {
-    this.guest = this.guest.filter(findGuest => findGuest !== guest);
-    console.log(this.guest);
+  public removeGuest(guest: Guest): void {
+    this.guests = this.guests.filter(findGuest => findGuest !== guest);
+    console.log(this.guests);
   }
 
-  public getByName(name: string): Guest {
-    return this.guest.find(guest => guest.name === name);
+  public findGuestCheckinByNameDocumentOrPhone(text: string): Observable<Guest[]> {
+    return of(this.guests
+      .filter(guest => (guest.name.includes(text)
+        || guest.phone.includes(text)
+        || guest.document.includes(text))));
   }
 
-  public getByDocument(document: string): Guest {
-    return this.guest.find(guest => guest.document === document);
+  findGuestById(id: string): Observable<Guest> {
+    return of(this.guests.find(guest => guest.id === id));
   }
 
-  public getByPhone(phone: string): Guest {
-    return this.guest.find(guest => guest.phone === phone);
-  }
-
-  findGuestById (id: string): Observable<Guest> {
-    return of(this.guest.find(guest => guest.id === id));
-  }
 }

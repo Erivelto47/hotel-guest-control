@@ -7,58 +7,20 @@
     </ng-template>
   </p-toolbar>
 
-  <p-table #dt [columns]="selectedColumns" [value]="guests" [rows]="10" [paginator]="true" [globalFilterFields]="['guest.name','guest.lastname','guest.phone','guest.email']"
-           [(selection)]="selectedGuests" [rowHover]="true" dataKey="id"
-           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
-    <ng-template pTemplate="caption">
-      <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
-                             selectedItemsLabel="{0} columns selected" [style]="{minWidth: '200px'}" placeholder="Choose Columns"></p-multiSelect>
-      <div class="p-d-flex p-ai-center p-jc-between">
-        <h5 class="p-m-0">Manage Guests</h5>
-        <span class="p-input-icon-left">
-                    <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
-                </span>
-      </div>
-    </ng-template>
-    <ng-template pTemplate="header" let-columns>
-        <tr>
-          <th style="width: 3rem">
-            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-          </th>
-          <th *ngFor="let col of columns">
-            {{col.header}}
-          </th>
-          <th></th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-guest let-columns="columns">
-      <tr>
-        <td>
-          <p-tableCheckbox [value]="guest"></p-tableCheckbox>
-        </td>
-        <td *ngFor="let col of columns">
-          {{guest[col.field]}}
-        </td>
-        <td>
-          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editGuest(guest)"></button>
-          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteGuest(guest)"></button>
-        </td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="summary">
-      <div class="p-d-flex p-ai-center p-jc-between">
-        In total there are {{guests ? guests.length : 0 }} guests.
-      </div>
-    </ng-template>
-  </p-table>
+ <ng-container>
+   <app-guest-list [guests]="guests"
+                   [edit]="true"
+                   (editGuest)="editGuest($event)"
+                   (deleteGuest)="deleteGuest($event)"
+                   >
+   </app-guest-list>
+ </ng-container>
 </div>
 
 <p-dialog [(visible)]="guestDialog" [style]="{width: '450px'}" header="Guest Details" [modal]="true" styleClass="p-fluid">
   <ng-container>
     <guest-form></guest-form>
   </ng-container>
-
 </p-dialog>
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
