@@ -20,7 +20,7 @@ import { GuestComponent } from './guest.component';
 import { FormComponent } from './form/form.component';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { GuestListComponent } from './guest-list/guest-list.component';
-import {MessageService} from "primeng/api";
+import {MessageService} from 'primeng/api';
 
 
 @NgModule({

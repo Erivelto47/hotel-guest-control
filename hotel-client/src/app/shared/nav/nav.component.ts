@@ -17,7 +17,7 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
     this.items = [
       {
-        label: 'Hóspedes',
+        label: 'Guest',
         icon: 'pi pi-fw pi-file',
         items: [
           {

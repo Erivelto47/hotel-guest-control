@@ -48,13 +48,13 @@ export class FormComponent implements OnInit {
   successMessage(name: string, operation: string): void {
     this.messageService.add({
       severity: 'success',
-      summary: 'Form Enviado',
-      detail: 'Hóspede ' + name + ' ' + operation + ' com sucesso!!'
+      summary: 'Form Send',
+      detail: `Guest ${operation} sucessfull!!`
     });
   }
 
   errorMessage(): void {
-    this.messageService.add({severity: 'error', summary: 'Erro', detail: 'Os dados não foram Salvos'});
+    this.messageService.add({severity: 'error', summary: 'Erro', detail: 'Error save data'});
   }
 
 
@@ -66,7 +66,7 @@ export class FormComponent implements OnInit {
     if (guest.id) {
       this.guestService.updateGuest(guest)
         .subscribe(result => {
-          this.successMessage(result.name, 'atualizado');
+          this.successMessage(result.name, 'Updated');
           this.formGuest.reset();
         });
     } else {
@@ -74,12 +74,11 @@ export class FormComponent implements OnInit {
       this.guestService.addGuest(guest)
         .subscribe(
           result => {
-            this.successMessage(result.name, 'criado');
+            this.successMessage(result.name, 'Created');
             this.formGuest.reset();
           },
           err => {
             this.errorMessage();
-            console.log(err);
           });
     }
 

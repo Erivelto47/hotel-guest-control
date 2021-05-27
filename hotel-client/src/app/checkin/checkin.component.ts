@@ -4,13 +4,7 @@ import {ConfirmationService, MessageService} from 'primeng/api';
 import {CheckinService} from './checkin.service';
 import {Guest} from '../guest/guest';
 import {GuestService} from '../guest/guest.service';
-
-interface Filter {
-  name: string;
-  phone: string;
-  document: string;
-  situation: any[];
-}
+import {Filter} from '../shared/common/Filter';
 
 @Component({
   selector: 'app-checkin',
@@ -38,13 +32,14 @@ export class CheckinComponent implements OnInit {
     name: '',
     document: '',
     phone: '',
-    situation: []
+    situation: ''
   };
 
   constructor(private checkinService: CheckinService,
               private messageService: MessageService,
               private confirmationService: ConfirmationService,
-              private guestService: GuestService) { }
+              private guestService: GuestService) {
+  }
 
   ngOnInit(): void {
     this.checkinService.findAll().subscribe(data => this.checkins = data);
@@ -58,7 +53,7 @@ export class CheckinComponent implements OnInit {
 
   editCheckin(checkin: Checkin): void {
     this.selectedGuest = checkin.guest;
-    this.checkin = {...checkin};
+    this.checkin = checkin;
     this.checkinDialog = true;
   }
 
@@ -86,10 +81,17 @@ export class CheckinComponent implements OnInit {
     if (!this.checkin.id) {
       this.checkin.id = this.createId();
       this.checkinDialog = false;
-      this.checkinService.addCheckin(this.checkin);
+      this.checkinService.addCheckin(this.checkin)
+        .subscribe(data => {
+          this.checkins.push(data);
+          this.messageService.add({severity: 'success', summary: 'Success', detail: 'Checkin created', life: 3000});
+        }, error => this.messageService.add({severity: 'warn', summary: 'Warning', detail: 'Error create checkin', life: 3000}));
     } else {
       this.checkinDialog = false;
-      this.checkinService.updateCheckin(this.checkin);
+      this.checkinService.updateCheckin(this.checkin)
+        .subscribe(
+          data => this.messageService.add({severity: 'info', summary: 'Okay', detail: 'Checkin updated', life: 3000}),
+        err => this.messageService.add({severity: 'warn', summary: 'Warning', detail: 'Error edit register', life: 3000}));
     }
     this.checkins = [...this.checkins];
     this.checkin = this.newCheckin();
@@ -110,7 +112,6 @@ export class CheckinComponent implements OnInit {
       checkin: null,
       checkout: null,
       total: 0,
-      laststay: 0,
       guest: {
         id: '',
         name: '',
@@ -123,6 +124,13 @@ export class CheckinComponent implements OnInit {
   }
 
   searchFiltered(): void {
-   console.log(this.filter);
+    if (this.filter.situation.length === 0
+      && this.filter.name === ''
+      && this.filter.phone === ''
+      && this.filter.document === '') {
+      this.messageService.add({severity: 'info', summary: 'Inform', detail: 'Please select a filter', life: 3000});
+    } else {
+      this.checkinService.findFiltered(this.filter).subscribe(data => this.checkins = [...data]);
+    }
   }
 }

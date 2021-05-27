@@ -52,20 +52,21 @@ export class GuestComponent implements OnInit, AfterViewInit {
 
   deleteGuest(guest: Guest): void {
     this.confirmationService.confirm({
-      message: 'Você deseja deletar o hóspede ' + guest.name + '?',
+      message: 'You want to delete the guest ' + guest.name + '?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.guests = this.guests.filter(val => val.id !== guest.id);
-        //TODO adicionar chamada encadeada service
-        this.guestService.removeGuest(guest);
+        this.guestService.removeGuest(guest)
+          .subscribe(result => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: `Guest ${result.name} deleted.`,
+              life: 3000
+            });
+          });
         this.guest = GuestComponent.newGuest();
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Hóspede excluido com sucesso.',
-          life: 3000
-        });
       }
     });
   }

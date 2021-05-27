@@ -9,5 +9,4 @@ export interface Checkin {
   checkout?: Date;
   guest: Guest;
   total: number;
-  laststay: number;
 }

@@ -10,7 +10,7 @@
 
       <small class="p-error" *ngIf="formGuest.get('name').errors?.required && formGuest.get('name').touched"
              class="p-error">
-        O nome é obrigatório!
+        Field 'Name' its blank or invalid. Please verify
       </small>
     </div>
   </div>
@@ -28,7 +28,7 @@
 
       <small *ngIf="formGuest.get('lastname').errors?.required && formGuest.get('lastname').touched"
              class="p-error">
-        O sobrenome é obrigatório!
+        Field 'Lastname' its blank or invalid. Please verify
       </small>
     </div>
   </div>
@@ -45,7 +45,7 @@
         [ngClass]="formGuest.get('email').errors?.required && formGuest.get('email').touched ? 'p-error' : ''">
       <small *ngIf="formGuest.get('email').errors?.required && formGuest.get('email').touched"
              class="p-error">
-        O email é obrigatório!
+        Field 'Email' its blank or invalid. Please verify
       </small>
     </div>
   </div>
@@ -65,7 +65,7 @@
 
       <small *ngIf="formGuest.get('phone').errors?.required && formGuest.get('phone').touched"
              class="p-error">
-        O telefone é obrigatório!
+        Field 'Phone' its blank or invalid. Please verify
       </small>
     </div>
   </div>
@@ -83,7 +83,7 @@
 
       <small *ngIf="formGuest.get('document').errors?.required && formGuest.get('document').touched"
              class="p-error">
-        O numero de documento é obrigatório!
+        Field 'Document' its blank or invalid. Please verify
       </small>
     </div>
   </div>

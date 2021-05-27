@@ -51,7 +51,6 @@ export class GuestService {
 
   public addGuest(guest: Guest): Observable<Guest> {
     this.guests.push(guest);
-    console.log(this.guests);
     return of(guest);
   }
 
@@ -62,16 +61,9 @@ export class GuestService {
     return of(this.guests[index]);
   }
 
-  public removeGuest(guest: Guest): void {
+  public removeGuest(guest: Guest): Observable<Guest> {
     this.guests = this.guests.filter(findGuest => findGuest !== guest);
-    console.log(this.guests);
-  }
-
-  public findGuestCheckinByNameDocumentOrPhone(text: string): Observable<Guest[]> {
-    return of(this.guests
-      .filter(guest => (guest.name.includes(text)
-        || guest.phone.includes(text)
-        || guest.document.includes(text))));
+    return of(guest);
   }
 
   findGuestById(id: string): Observable<Guest> {

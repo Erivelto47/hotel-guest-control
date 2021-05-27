@@ -39,9 +39,6 @@
         <th pSortableColumn="total">Total
           <p-sortIcon field="total"></p-sortIcon>
         </th>
-        <th pSortableColumn="laststay">Last Stay Total
-          <p-sortIcon field="laststay"></p-sortIcon>
-        </th>
         <th></th>
       </tr>
     </ng-template>
@@ -53,7 +50,6 @@
         <td>{{checkin.checkout | date: 'dd/mm/yyy, h:mm a'}}</td>
         <td>{{checkin.guest.name}}</td>
         <td>{{checkin.total | number: '1.2'}}</td>
-        <td>{{checkin.laststay | number: '1.2'}}</td>
         <td>
           <button pButton pRipple icon="pi pi-pencil"
                   class="p-button-rounded p-button-success p-mr-2"
@@ -94,8 +90,7 @@
       <div class="p-formgrid p-grid">
         <div class="p-field p-col">
           <label for="guest">Guest</label>
-          <p-dropdown id="guest" [options]="guests" [(ngModel)]="selectedGuest" optionLabel="name"
-                      optionValue="id"></p-dropdown>
+          <p-dropdown id="guest"  [options]="guests" [(ngModel)]="checkin.guest" optionLabel="name"></p-dropdown>
         </div>
       </div>
 
@@ -103,13 +98,6 @@
         <div class="p-field p-col">
           <label for="total">Total</label>
           <input pInputText id="total" [(ngModel)]="checkin.total" type="number" step="0.01">
-        </div>
-      </div>
-
-      <div class="p-formgrid p-grid">
-        <div class="p-field p-col">
-          <label for="laststay">Last Stay</label>
-          <input pInputText id="laststay" [(ngModel)]="checkin.laststay" type="number" step="0.01">
         </div>
       </div>
     </div>
@@ -129,7 +117,7 @@
   <p-toolbar styleClass="p-mb-4">
     <div class="p-fluid p-formgrid p-grid">
       <div class="p-field p-col-12 p-md-6">
-        <label for="firstname">Firstname</label>
+        <label for="firstname">Name</label>
         <input pInputText id="firstname" [(ngModel)]="filter.name" type="text">
       </div>
       <div class="p-field p-col-12 p-md-6">
