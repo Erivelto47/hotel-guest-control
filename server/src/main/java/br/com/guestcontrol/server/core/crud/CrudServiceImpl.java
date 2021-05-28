@@ -1,15 +1,12 @@
-package br.com.erivelto.crudFuncionario.core.crud;
+package br.com.guestcontrol.server.core.crud;
 
-import br.com.erivelto.crudFuncionario.core.exception.ValidationException;
-import br.com.erivelto.crudFuncionario.core.validation.Validator;
+import br.com.guestcontrol.server.core.exception.ValidationException;
+import br.com.guestcontrol.server.core.validation.Validator;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Create by erivelto on 01/02/19
- */
 public abstract class CrudServiceImpl<T, ID extends Serializable> implements CrudService<T, ID> {
 
     protected abstract JpaRepository<T, ID> getRepository();
@@ -21,8 +18,7 @@ public abstract class CrudServiceImpl<T, ID extends Serializable> implements Cru
 
     @Override
     public T findById(ID id){
-        //return getRepository().findById(id).orElseThrow(NoResultException::new);//lança uma exceção de que não encontrou resultdados
-        return getRepository().findById(id).orElse(null); //dessa forma rerna null
+        return getRepository().findById(id).orElse(null);
     }
 
     @Override

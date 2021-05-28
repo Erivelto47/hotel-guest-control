@@ -2,72 +2,33 @@ import {Injectable} from '@angular/core';
 import {Guest} from './guest';
 import {Observable, of} from 'rxjs';
 
+import { environment } from '../../environments/environment';
+import {HttpClient} from "@angular/common/http";
+
+const URL_API_GUEST = environment.API_ENDPOINT + '/guest';
+
 @Injectable({
   providedIn: 'root'
 })
 export class GuestService {
 
-  guests: Guest[];
-
-  constructor() {
-    this.guests = [
-      {
-        id: 'dfasdfa',
-        name: 'teste1',
-        lastname: 'teste11',
-        document: '9712390f',
-        phone: '32887723321',
-        email: 'teste1@teste.com',
-      },
-      {
-        id: 'ksjdjoaisdjjfa',
-        name: 'teste2',
-        lastname: 'teste22',
-        document: '9712390g',
-        phone: '32887723322',
-        email: 'teste2@teste.com',
-      },
-      {
-        id: 'ksjdjoaisdfdsfa',
-        name: 'teste3',
-        lastname: 'teste33',
-        document: '9712390gf87s',
-        phone: '32887723123',
-        email: 'teste3@teste.com',
-      },
-      {
-        id: 'ksjdjodfdsfa',
-        name: 'teste4',
-        lastname: 'teste44',
-        document: '9712gf87s',
-        phone: '323123',
-        email: 'teste4@teste.com'
-      }];
+  constructor(private httpClient: HttpClient) {
   }
 
   public getAll(): Observable<Guest[]> {
-    return of(this.guests);
+    return this.httpClient.get<Guest[]>(URL_API_GUEST);
   }
 
   public addGuest(guest: Guest): Observable<Guest> {
-    this.guests.push(guest);
-    return of(guest);
+    return this.httpClient.post<Guest>(URL_API_GUEST, guest);
   }
 
   public updateGuest(guest: Guest): Observable<Guest> {
-    const index = this.guests
-      .indexOf(this.guests.find(value => value.id === guest.id));
-    this.guests[index] = guest;
-    return of(this.guests[index]);
+    return this.httpClient.post<Guest>(URL_API_GUEST, guest);
   }
 
-  public removeGuest(guest: Guest): Observable<Guest> {
-    this.guests = this.guests.filter(findGuest => findGuest !== guest);
-    return of(guest);
-  }
-
-  findGuestById(id: string): Observable<Guest> {
-    return of(this.guests.find(guest => guest.id === id));
+  public removeGuest(guest: Guest): Observable<void> {
+    return this.httpClient.delete<void>(`${URL_API_GUEST}/${guest.id}`);
   }
 
 }

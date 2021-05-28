@@ -69,38 +69,39 @@
   </p-table>
 </div>
 
-<p-dialog [(visible)]="checkinDialog" [style]="{width: '500px'}" header="Checkin Details" [modal]="true"
+<p-dialog [(visible)]="checkinDialog" [style]="{width: '450px'}" header="Checkin Details" [modal]="true"
           styleClass="p-fluid">
   <ng-template pTemplate="content">
-    <div style="min-height: 600px">
       <div class="p-formgrid p-grid">
         <div class="p-field p-col">
           <label for="checkin">Checkin</label>
-          <p-calendar id="checkin" showTime="true" [(ngModel)]="checkin.checkin"></p-calendar>
+          <p-calendar appendTo="body" id="checkin" showTime="true" [(ngModel)]="checkin.checkin"></p-calendar>
         </div>
       </div>
 
       <div class="p-formgrid p-grid">
         <div class="p-field p-col">
           <label for="checkout">Checkout</label>
-          <p-calendar id="checkout" showTime="true" [(ngModel)]="checkin.checkout"></p-calendar>
+          <p-calendar appendTo="body" id="checkout" showTime="true" [(ngModel)]="checkin.checkout"></p-calendar>
         </div>
       </div>
 
       <div class="p-formgrid p-grid">
         <div class="p-field p-col">
-          <label for="guest">Guest</label>
-          <p-dropdown id="guest"  [options]="guests" [(ngModel)]="checkin.guest" optionLabel="name"></p-dropdown>
+          <label for="guestDrop">Guest</label>
+          <p-dropdown id="guestDrop" placeholder="Select a Guest" name="guestDrop" [options]="guests" [(ngModel)]="selectedGuest" optionLabel="name"></p-dropdown>
         </div>
       </div>
 
+      <h4>Parking</h4>
       <div class="p-formgrid p-grid">
         <div class="p-field p-col">
-          <label for="total">Total</label>
-          <input pInputText id="total" [(ngModel)]="checkin.total" type="number" step="0.01">
+          <div class="p-field-checkbox">
+            <p-checkbox id="hascar" value="edit" binary="true" [(ngModel)]="checkin.hasCar"></p-checkbox>
+            <label for="hascar">You have a car?</label>
+          </div>
         </div>
       </div>
-    </div>
 
   </ng-template>
 

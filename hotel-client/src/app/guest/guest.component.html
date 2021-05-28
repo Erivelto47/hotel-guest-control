@@ -19,7 +19,7 @@
 
 <p-dialog [(visible)]="guestDialog" [style]="{width: '450px'}" header="Guest Details" [modal]="true" styleClass="p-fluid">
   <ng-container>
-    <guest-form></guest-form>
+    <guest-form [guests]="guests"></guest-form>
   </ng-container>
 </p-dialog>
 

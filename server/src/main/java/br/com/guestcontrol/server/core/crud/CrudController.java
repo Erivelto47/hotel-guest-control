@@ -1,4 +1,4 @@
-package br.com.erivelto.crudFuncionario.core.crud;
+package br.com.guestcontrol.server.core.crud;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -7,9 +7,6 @@ import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Create by erivelto on 01/02/19
- */
 public abstract class CrudController<T, ID extends Serializable> {
 
     public abstract CrudService<T, ID> getService();
@@ -36,7 +33,7 @@ public abstract class CrudController<T, ID extends Serializable> {
     }
 
     @PostMapping
-    public ResponseEntity<T> save(@Valid @RequestBody T entity) throws Exception {//@Valid para funcionar as validaçoes do JPA tipo @NotBlank
+    public ResponseEntity<T> save(@Valid @RequestBody T entity) throws Exception {
         return postSave(getService().save(entity));
     }
 

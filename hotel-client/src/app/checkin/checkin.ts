@@ -5,8 +5,9 @@ import {Guest} from '../guest/guest';
 
 export interface Checkin {
   id: string;
-  checkin?: Date;
+  checkin: Date;
   checkout?: Date;
   guest: Guest;
-  total: number;
+  total?: number;
+  hasCar: boolean;
 }

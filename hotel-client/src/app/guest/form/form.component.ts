@@ -1,8 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component, Input, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MessageService} from 'primeng/api';
 import {GuestService} from '../guest.service';
-import {Observable} from 'rxjs';
 
 import {Guest} from '../guest';
 
@@ -11,6 +10,8 @@ import {Guest} from '../guest';
   templateUrl: './form.component.html'
 })
 export class FormComponent implements OnInit {
+
+  @Input() guests: Guest[];
 
   formGuest: FormGroup;
   guest: Guest;
@@ -27,8 +28,7 @@ export class FormComponent implements OnInit {
 
   editOrCreate(): void {
     if (this.guest) {
-      const id = this.guest.id;
-      this.findGuestById(id).toPromise().then(guest => this.createForm(guest));
+      this.createForm(this.guest);
     } else {
       this.createForm(this.newGuest());
     }
@@ -36,10 +36,9 @@ export class FormComponent implements OnInit {
 
   createForm(guest: Guest): void {
     this.formGuest = this.formBuilder.group({
-      name: [guest.name, [Validators.required, Validators.minLength(2)]],
-      lastname: [guest.lastname, [Validators.required, Validators.minLength(2)]],
+      name: [guest.name, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
       email: [guest.email, [Validators.required, Validators.email]],
-      phone: [guest.phone, [Validators.required, Validators.minLength(8)]],
+      phone: [guest.phone, [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
       document: [guest.document, [Validators.required, Validators.minLength(6)]],
       id: [guest.id],
     });
@@ -57,7 +56,6 @@ export class FormComponent implements OnInit {
     this.messageService.add({severity: 'error', summary: 'Erro', detail: 'Error save data'});
   }
 
-
   onSubmit(): void {
     let guest: Guest = this.formGuest.value;
     if (!guest) {
@@ -66,26 +64,29 @@ export class FormComponent implements OnInit {
     if (guest.id) {
       this.guestService.updateGuest(guest)
         .subscribe(result => {
-          this.successMessage(result.name, 'Updated');
-          this.formGuest.reset();
-        });
+            this.successMessage(result.name, 'Updated');
+            this.formGuest.reset();
+            this.guest = result;
+            this.guests[this.guests.indexOf(guest)] = result;
+          },
+          error => {
+            this.errorMessage();
+            this.guest = guest
+          });
     } else {
-      guest.id = this.createId();
       this.guestService.addGuest(guest)
         .subscribe(
           result => {
             this.successMessage(result.name, 'Created');
             this.formGuest.reset();
+            this.guest = result;
+            this.guests.push(result);
           },
           err => {
             this.errorMessage();
+            this.guest = guest
           });
     }
-
-  }
-
-  findGuestById(id: string): Observable<Guest> {
-    return this.guestService.findGuestById(id);
   }
 
   newGuest(): Guest {
@@ -97,15 +98,6 @@ export class FormComponent implements OnInit {
       document: '',
       email: ''
     };
-  }
-
-  createId(): string {
-    let id = '';
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (let i = 0; i < 5; i++) {
-      id += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return id;
   }
 
 }

@@ -1,4 +1,4 @@
-<p-table #dt [columns]="selectedColumns" [value]="guests" [rows]="10" [paginator]="true" [globalFilterFields]="['name','lastname','phone','email']"
+<p-table #dt [columns]="selectedColumns" [value]="guests" [rows]="10" [paginator]="true" [globalFilterFields]="['name','phone','email']"
          [rowHover]="true" dataKey="id"
          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
   <ng-template pTemplate="caption">

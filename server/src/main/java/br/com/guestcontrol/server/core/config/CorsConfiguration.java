@@ -1,4 +1,4 @@
-package br.com.erivelto.crudFuncionario.core.config;
+package br.com.guestcontrol.server.core.config;
 
 import org.springframework.context.annotation.Configuration;
 
@@ -7,9 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Create by erivelto on 19/08/19
- */
 @Configuration
 public class CorsConfiguration implements Filter {
 

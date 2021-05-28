@@ -16,24 +16,6 @@
   </div>
 
   <div class="p-field ">
-    <label for="lastname" class="p-col-fixed" style="width:100px">Lastname:</label>
-    <div class="p-col">
-      <input
-        id="lastname"
-        formControlName="lastname"
-        type="text"
-        pInputText
-        class="p-inputtext-md"
-        [ngClass]="formGuest.get('lastname').errors?.required && formGuest.get('lastname').touched ? 'p-error' : ''">
-
-      <small *ngIf="formGuest.get('lastname').errors?.required && formGuest.get('lastname').touched"
-             class="p-error">
-        Field 'Lastname' its blank or invalid. Please verify
-      </small>
-    </div>
-  </div>
-
-  <div class="p-field ">
     <label for="email" class="p-col-fixed" style="width:100px">Email:</label>
     <div class="p-col">
       <input

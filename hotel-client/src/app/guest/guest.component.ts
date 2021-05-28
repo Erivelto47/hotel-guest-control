@@ -22,9 +22,7 @@ export class GuestComponent implements OnInit, AfterViewInit {
   guestForm: FormComponent;
 
   guestDialog: boolean;
-
   guest: Guest;
-
   guests: Guest[];
 
   constructor(private guestService: GuestService,
@@ -33,7 +31,6 @@ export class GuestComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-
     this.guestService.getAll().subscribe(guests => this.guests = guests);
   }
 
@@ -44,10 +41,10 @@ export class GuestComponent implements OnInit, AfterViewInit {
   }
 
   editGuest(guest: Guest): void {
-    this.guest = {...guest};
-    this.guestForm.guest = this.guest;
+    this.guestForm.guest = guest;
     this.guestDialog = true;
     this.guestForm.editOrCreate();
+    this.guests[this.guests.indexOf(guest)] = this.guestForm.guest;
   }
 
   deleteGuest(guest: Guest): void {
@@ -56,16 +53,25 @@ export class GuestComponent implements OnInit, AfterViewInit {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.guests = this.guests.filter(val => val.id !== guest.id);
         this.guestService.removeGuest(guest)
-          .subscribe(result => {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Successful',
-              detail: `Guest ${result.name} deleted.`,
-              life: 3000
+          .subscribe(
+            result => {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Successful',
+                detail: `Guest deleted.`,
+                life: 3000
+              });
+              this.guests = this.guests.filter(val => val.id !== guest.id);
+          },
+            err => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: `Error to delete. Please verify Checkin dependency`,
+                life: 5000
+              });
             });
-          });
         this.guest = GuestComponent.newGuest();
       }
     });

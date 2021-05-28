@@ -15,6 +15,7 @@ import {InputMaskModule} from 'primeng/inputmask';
 import {CalendarModule} from 'primeng/calendar';
 import {RippleModule} from "primeng/ripple";
 import {InputTextModule} from "primeng/inputtext";
+import {CheckboxModule} from 'primeng/checkbox';
 
 @NgModule({
   declarations: [CheckinComponent],
@@ -35,7 +36,8 @@ import {InputTextModule} from "primeng/inputtext";
     InputMaskModule,
     CalendarModule,
     RippleModule,
-    InputTextModule
+    InputTextModule,
+    CheckboxModule
   ]
 })
 export class CheckinModule {

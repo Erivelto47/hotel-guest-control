@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { NavComponent } from './nav.component';
 import {MenuModule} from 'primeng/menu';
 
-
-
 @NgModule({
   declarations: [NavComponent],
   exports: [NavComponent],
